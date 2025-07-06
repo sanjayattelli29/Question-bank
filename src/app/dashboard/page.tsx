@@ -154,9 +154,37 @@ export default function Dashboard() {
           css={{ backdropFilter: 'blur(10px)' }}
         >
           <Flex h="full" px={8} align="center" justify="space-between">
-            <Text fontSize="xl" fontWeight="bold" color="#007acc">
-              📚 Question Bank - Programming Practice
-            </Text>
+            <Flex align="center" gap={4}>
+              <Text fontSize="xl" fontWeight="bold" color="#007acc">
+                📚 Question Bank - Programming Practice
+              </Text>
+              <Button
+                size="sm"
+                bg="linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%)"
+                color="white"
+                _hover={{ 
+                  bg: "linear-gradient(135deg, #7c3aed 0%, #6d28d9 100%)",
+                  transform: 'translateY(-1px)',
+                  boxShadow: '0 4px 12px rgba(139, 92, 246, 0.4)'
+                }}
+                _active={{
+                  transform: 'translateY(0px)'
+                }}
+                transition="all 0.2s ease"
+                display="flex"
+                alignItems="center"
+                gap={2}
+                fontWeight="600"
+                px={4}
+                py={2}
+                borderRadius="6px"
+                border="1px solid rgba(139, 92, 246, 0.3)"
+                onClick={() => window.open('/list', '_blank')}
+              >
+                <Text fontSize="14px">📋</Text>
+                <Text fontSize="sm">Problems List</Text>
+              </Button>
+            </Flex>
             <Flex align="center" gap={4}>
               <Text fontSize="sm" color="#b3b3b3">
                 {filteredQuestions.length} of {questions.length} questions shown
