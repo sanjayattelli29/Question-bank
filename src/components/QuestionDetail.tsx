@@ -84,6 +84,10 @@ export default function QuestionDetail({ question: initialQuestion, onBack }: Qu
         }),
       });
 
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
       const data = await response.json();
 
       if (data.success) {
@@ -96,11 +100,11 @@ export default function QuestionDetail({ question: initialQuestion, onBack }: Qu
           expectedOutput: editedOutput
         });
         
-        // Close modal after 1 second
+        // Close modal after 2 seconds to give more time
         setTimeout(() => {
           setShowEditModal(false);
           setSaveMessage('');
-        }, 1000);
+        }, 2000);
       } else {
         setSaveMessage(data.error || 'Failed to update question.');
       }
