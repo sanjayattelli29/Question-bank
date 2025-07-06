@@ -1,103 +1,215 @@
-import Image from "next/image";
+import { Box, VStack, Text, Button, Container, Heading, Flex, HStack } from "@chakra-ui/react";
+import Link from "next/link";
 
 export default function Home() {
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+    <Box bg="#0f0f0f" minH="100vh" color="white" position="relative" overflow="hidden">
+      {/* Background Pattern */}
+      <Box
+        position="absolute"
+        top={0}
+        left={0}
+        right={0}
+        bottom={0}
+        backgroundImage="radial-gradient(circle at 25% 25%, #007acc20 0%, transparent 50%), radial-gradient(circle at 75% 75%, #22c55e20 0%, transparent 50%)"
+        pointerEvents="none"
+      />
+      
+      <Box 
+        display="flex" 
+        justifyContent="center" 
+        alignItems="center" 
+        minH="100vh" 
+        w="100%"
+        position="relative" 
+        zIndex={1}
+      >
+        <Container maxW="6xl" centerContent py={20}>
+          <VStack gap={12} textAlign="center" w="100%" alignItems="center" justify="center">
+            {/* Hero Section */}
+            <VStack gap={6} alignItems="center" w="100%" mt={16}>
+              <Box mb={4} w="100%" display="flex" justifyContent="center">
+                <Text 
+                  fontSize="6xl" 
+                  fontWeight="900" 
+                  bgGradient="linear-gradient(135deg, #007acc, #22c55e)"
+                  bgClip="text"
+                  lineHeight="1.1"
+                  textAlign="center"
+                >
+                  📚 Question Bank
+                </Text>
+              </Box>
+              <Box w="100%" display="flex" justifyContent="center">
+                <Heading 
+                  size="lg" 
+                  color="#b3b3b3" 
+                  maxW="800px" 
+                  fontWeight="400"
+                  lineHeight="1.6"
+                  fontSize="xl"
+                  textAlign="center"
+                >
+                  Interactive Python programming practice with syntax-highlighted code blocks, 
+                  toggleable answers, and progress tracking.
+                </Heading>
+              </Box>
+            </VStack>
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+            {/* CTA Buttons */}
+            <Box w="100%" display="flex" justifyContent="center" mt={8}>
+              <HStack gap={4}>
+                <Link href="/dashboard">
+                  <Button
+                    bg="linear-gradient(135deg, #007acc, #0099ff)"
+                    color="white"
+                    size="lg"
+                    px={12}
+                    py={8}
+                    fontSize="lg"
+                    fontWeight="600"
+                    borderRadius="12px"
+                    _hover={{ 
+                      transform: "translateY(-3px)", 
+                      boxShadow: "0 20px 40px rgba(0, 122, 204, 0.3)",
+                      bg: "linear-gradient(135deg, #0099ff, #007acc)"
+                    }}
+                    transition="all 0.3s ease"
+                    height="60px"
+                  >
+                    Start Practicing →
+                  </Button>
+                </Link>
+                
+                <Button
+                  bg="transparent"
+                  color="#ffffff"
+                  border="2px solid #333333"
+                  size="lg"
+                  px={12}
+                  py={8}
+                  fontSize="lg"
+                  fontWeight="600"
+                  borderRadius="12px"
+                  _hover={{ 
+                    borderColor: "#007acc",
+                    color: "#007acc",
+                    transform: "translateY(-3px)"
+                  }}
+                  transition="all 0.3s ease"
+                  height="60px"
+                >
+                  View Demo
+                </Button>
+              </HStack>
+            </Box>
+
+            {/* Feature Cards */}
+            <Box mt={16} mb={12} w="100%" display="flex" flexDirection="column" alignItems="center">
+              <Text fontSize="xl" color="#ffffff" mb={8} fontWeight="600" textAlign="center">
+                Why Choose Question Bank?
+              </Text>
+              <Box w="100%" display="flex" justifyContent="center">
+                <Flex 
+                  wrap="wrap" 
+                  justify="center" 
+                  gap={6} 
+                  maxW="1200px"
+                >
+              {[
+                {
+                  emoji: "🐍",
+                  title: "Syntax Highlighting",
+                  description: "Beautiful Python code with professional syntax highlighting"
+                },
+                {
+                  emoji: "✅",
+                  title: "Progress Tracking",
+                  description: "Track your completion status and monitor your learning journey"
+                },
+                {
+                  emoji: "👁️",
+                  title: "Toggleable Outputs",
+                  description: "Reveal expected outputs when you need hints or verification"
+                },
+                {
+                  emoji: "⚙️",
+                  title: "Admin Panel",
+                  description: "Easy-to-use interface for adding and managing questions"
+                },
+                {
+                  emoji: "📚",
+                  title: "Clean Interface",
+                  description: "Distraction-free dark theme optimized for coding practice"
+                },
+                {
+                  emoji: "⚡",
+                  title: "Fast & Responsive",
+                  description: "Built with modern web technologies for optimal performance"
+                }
+              ].map((feature, index) => (
+                <Box
+                  key={index}
+                  bg="#1a1a1a"
+                  border="1px solid #333333"
+                  borderRadius="12px"
+                  p={6}
+                  maxW="350px"
+                  w="full"
+                  transition="all 0.3s ease"
+                  _hover={{
+                    transform: "translateY(-8px)",
+                    borderColor: "#007acc",
+                    boxShadow: "0 20px 40px rgba(0, 122, 204, 0.1)"
+                  }}
+                  cursor="pointer"
+                >
+                  <VStack gap={4} textAlign="center">
+                    <Box
+                      bg="#007acc"
+                      color="white"
+                      p={3}
+                      borderRadius="full"
+                      display="flex"
+                      alignItems="center"
+                      justifyContent="center"
+                    >
+                      <Text fontSize="2xl">
+                        {feature.emoji}
+                      </Text>
+                    </Box>
+                    <Text fontSize="lg" fontWeight="600" color="#ffffff">
+                      {feature.title}
+                    </Text>
+                    <Text fontSize="sm" color="#b3b3b3" lineHeight="1.6">
+                      {feature.description}
+                    </Text>
+                  </VStack>
+                </Box>
+              ))}
+                </Flex>
+              </Box>
+            </Box>
+
+            {/* Additional CTA Section */}
+            <VStack gap={6} mt={16} alignItems="center" w="100%">
+              <Text fontSize="2xl" fontWeight="700" color="#ffffff" textAlign="center">
+                Ready to Start Coding?
+              </Text>
+              <Text fontSize="lg" color="#b3b3b3" maxW="600px" textAlign="center">
+                Join thousands of developers improving their Python skills with our interactive question bank.
+              </Text>
+            </VStack>
+
+            {/* Footer */}
+            <Box mt={20} pt={8} borderTop="1px solid #333333" w="100%" textAlign="center">
+              <Text fontSize="sm" color="#666666">
+                Built with ❤️ using Next.js, MongoDB Atlas, and Chakra UI
+              </Text>
+            </Box>
+          </VStack>
+        </Container>
+      </Box>
+    </Box>
   );
 }
