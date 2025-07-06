@@ -304,6 +304,8 @@ export default function QuestionDetail({ question: initialQuestion, onBack }: Qu
             display="flex"
             flexDirection="column"
             borderBottom="1px solid #333333"
+            minH="400px" // Minimum height for code section
+            maxH="calc(100vh - 350px)" // Maximum height to leave space for output
           >
             {/* Code Header */}
             <Flex 
@@ -384,7 +386,8 @@ export default function QuestionDetail({ question: initialQuestion, onBack }: Qu
             <Box 
               flex="1" 
               overflow="auto"
-              className="custom-scrollbar"
+              className="custom-scrollbar code-scroll-area"
+              maxH="calc(100vh - 200px)" // Limit the maximum height
             >
               <SyntaxHighlighter
                 language="python"
@@ -396,8 +399,9 @@ export default function QuestionDetail({ question: initialQuestion, onBack }: Qu
                   fontSize: '14px',
                   lineHeight: '1.6',
                   fontFamily: 'var(--font-fira-code), Consolas, Monaco, monospace',
-                  height: '100%',
-                  minHeight: '100%'
+                  minHeight: 'auto', // Changed from '100%'
+                  height: 'auto', // Changed from '100%'
+                  overflow: 'visible' // Allow natural overflow
                 }}
                 showLineNumbers
                 lineNumberStyle={{
@@ -405,6 +409,7 @@ export default function QuestionDetail({ question: initialQuestion, onBack }: Qu
                   marginRight: '16px',
                   userSelect: 'none'
                 }}
+                wrapLongLines={true} // Enable line wrapping for very long lines
               >
                 {question.code}
               </SyntaxHighlighter>
@@ -413,12 +418,14 @@ export default function QuestionDetail({ question: initialQuestion, onBack }: Qu
 
           {/* Output Section - Expandable */}
           <Box
-            h={showAnswer ? "300px" : "50px"}
+            h={showAnswer ? "250px" : "50px"} // Reduced expanded height
+            minH="50px" // Ensure minimum height
             bg="#1a1a1a"
             borderTop="1px solid #333333"
             display="flex"
             flexDirection="column"
             transition="height 0.3s ease"
+            flexShrink={0} // Prevent shrinking
           >
             {/* Output Header */}
             <Flex 

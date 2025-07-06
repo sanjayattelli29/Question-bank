@@ -238,6 +238,56 @@ input:focus {
 }
 
 
+/* Code block scrolling improvements */
+
+.code-container {
+    height: 100%;
+    overflow-y: auto;
+    overflow-x: auto;
+}
+
+.code-container pre {
+    margin: 0 !important;
+    height: auto !important;
+    min-height: auto !important;
+}
+
+
+/* Ensure syntax highlighter doesn't force full height */
+
+.syntax-highlighter-container {
+    max-height: 100%;
+    overflow: visible;
+}
+
+
+/* Better scrolling for long code blocks */
+
+.code-scroll-area {
+    scrollbar-width: thin;
+    scrollbar-color: #666666 #1a1a1a;
+}
+
+.code-scroll-area::-webkit-scrollbar {
+    width: 12px;
+}
+
+.code-scroll-area::-webkit-scrollbar-track {
+    background: #1a1a1a;
+    border-radius: 6px;
+}
+
+.code-scroll-area::-webkit-scrollbar-thumb {
+    background: #666666;
+    border-radius: 6px;
+    border: 2px solid #1a1a1a;
+}
+
+.code-scroll-area::-webkit-scrollbar-thumb:hover {
+    background: #007acc;
+}
+
+
 /* Card styles */
 
 .card {
@@ -342,5 +392,40 @@ input:focus {
         height: calc(100vh - 70px);
         z-index: 1000;
         box-shadow: -4px 0 20px rgba(0, 0, 0, 0.3);
+    }
+}
+
+
+/* Table styling for problem list page */
+
+.problem-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.problem-table tbody tr:hover {
+    background-color: #2a2a2a;
+    transition: background-color 0.2s ease;
+}
+
+.problem-table tbody tr:last-child {
+    border-bottom: none;
+}
+
+
+/* Better responsive table */
+
+@media (max-width: 768px) {
+    .problem-table {
+        font-size: 14px;
+    }
+    .problem-table th:first-child,
+    .problem-table td:first-child {
+        width: 60px;
+        padding: 12px 8px;
+    }
+    .problem-table th,
+    .problem-table td {
+        padding: 12px 16px;
     }
 }
