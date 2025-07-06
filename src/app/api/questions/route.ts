@@ -71,3 +71,58 @@ export async function POST(request: NextRequest) {
     );
   }
 }
+
+// PUT - Update question code and output (Admin only)
+export async function PUT(request: NextRequest) {
+  try {
+    const body = await request.json();
+    const { questionId, code, expectedOutput, adminKey } = body;
+
+    // Verify admin key
+    if (adminKey !== process.env.ADMIN_KEY) {
+      return NextResponse.json(
+        { success: false, error: 'Unauthorized' },
+        { status: 401 }
+      );
+    }
+
+    // Validate required fields
+    if (!questionId || !code || !expectedOutput) {
+      return NextResponse.json(
+        { success: false, error: 'Missing required fields' },
+        { status: 400 }
+      );
+    }
+
+    await connectDB();
+
+    // Find and update the question
+    const updatedQuestion = await Question.findByIdAndUpdate(
+      questionId,
+      { 
+        code: code.trim(), 
+        expectedOutput: expectedOutput.trim() 
+      },
+      { new: true }
+    );
+
+    if (!updatedQuestion) {
+      return NextResponse.json(
+        { success: false, error: 'Question not found' },
+        { status: 404 }
+      );
+    }
+
+    return NextResponse.json({
+      success: true,
+      data: updatedQuestion,
+      message: 'Question updated successfully',
+    });
+  } catch (error) {
+    console.error('Error updating question:', error);
+    return NextResponse.json(
+      { success: false, error: 'Failed to update question' },
+      { status: 500 }
+    );
+  }
+}
