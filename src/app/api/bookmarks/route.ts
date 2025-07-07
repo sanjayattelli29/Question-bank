@@ -2,15 +2,12 @@ import { NextRequest, NextResponse } from 'next/server';
 import connectDB from '../../../../lib/mongodb';
 import Bookmark from '../../../../models/Bookmark';
 
-// GET - Get all bookmarks for a session
-export async function GET(request: NextRequest) {
+// GET - Get all globally bookmarked questions
+export async function GET() {
   try {
     await connectDB();
     
-    const { searchParams } = new URL(request.url);
-    const sessionId = searchParams.get('sessionId') || 'default';
-    
-    const bookmarks = await Bookmark.find({ sessionId, isBookmarked: true });
+    const bookmarks = await Bookmark.find({ isBookmarked: true });
     
     return NextResponse.json({
       success: true,
@@ -25,12 +22,12 @@ export async function GET(request: NextRequest) {
   }
 }
 
-// POST - Toggle bookmark for a question
+// POST - Toggle bookmark for a question globally
 export async function POST(request: NextRequest) {
   try {
     await connectDB();
     
-    const { questionId, sessionId = 'default' } = await request.json();
+    const { questionId } = await request.json();
     
     if (!questionId) {
       return NextResponse.json(
@@ -40,7 +37,7 @@ export async function POST(request: NextRequest) {
     }
     
     // Find existing bookmark
-    const existingBookmark = await Bookmark.findOne({ questionId, sessionId });
+    const existingBookmark = await Bookmark.findOne({ questionId });
     
     if (existingBookmark) {
       // Toggle bookmark status
@@ -55,7 +52,6 @@ export async function POST(request: NextRequest) {
       // Create new bookmark
       const newBookmark = new Bookmark({
         questionId,
-        sessionId,
         isBookmarked: true
       });
       

@@ -18,38 +18,22 @@ export function QuestionProvider({ children }: { children: ReactNode }) {
   const [completedQuestions, setCompletedQuestions] = useState<Set<string>>(new Set());
   const [bookmarkedQuestions, setBookmarkedQuestions] = useState<Set<string>>(new Set());
   const [isLoading, setIsLoading] = useState(true);
-  const [sessionId, setSessionId] = useState<string>('default');
 
-  // Initialize sessionId and load data from APIs
+  // Initialize and load data from APIs
   useEffect(() => {
     const initializeData = async () => {
       try {
         setIsLoading(true);
-        
-        // Generate or get sessionId (simplified approach)
-        let id = 'session_' + Math.random().toString(36).substr(2, 9);
-        
-        // Try to get existing sessionId from sessionStorage (more reliable than localStorage)
-        if (typeof window !== 'undefined') {
-          const existingId = sessionStorage.getItem('questionBankSessionId');
-          if (existingId) {
-            id = existingId;
-          } else {
-            sessionStorage.setItem('questionBankSessionId', id);
-          }
-        }
-        
-        setSessionId(id);
 
         // Load completed questions from API
-        const completedResponse = await fetch(`/api/completed?sessionId=${id}`);
+        const completedResponse = await fetch(`/api/completed`);
         const completedData = await completedResponse.json();
         if (completedData.success) {
           setCompletedQuestions(new Set(completedData.completed));
         }
 
         // Load bookmarks from API
-        const bookmarkResponse = await fetch(`/api/bookmarks?sessionId=${id}`);
+        const bookmarkResponse = await fetch(`/api/bookmarks`);
         const bookmarkData = await bookmarkResponse.json();
         if (bookmarkData.success) {
           setBookmarkedQuestions(new Set(bookmarkData.bookmarks));
@@ -71,14 +55,11 @@ export function QuestionProvider({ children }: { children: ReactNode }) {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-          questionId,
-          sessionId,
-        }),
+        body: JSON.stringify({ questionId }),
       });
 
       const data = await response.json();
-      
+
       if (data.success) {
         setCompletedQuestions(prev => {
           const newSet = new Set(prev);
@@ -89,8 +70,6 @@ export function QuestionProvider({ children }: { children: ReactNode }) {
           }
           return newSet;
         });
-      } else {
-        console.error('Error toggling completion:', data.error);
       }
     } catch (error) {
       console.error('Error toggling completion:', error);
@@ -104,10 +83,11 @@ export function QuestionProvider({ children }: { children: ReactNode }) {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ questionId, sessionId }),
+        body: JSON.stringify({ questionId }),
       });
-      
+
       const data = await response.json();
+
       if (data.success) {
         setBookmarkedQuestions(prev => {
           const newSet = new Set(prev);

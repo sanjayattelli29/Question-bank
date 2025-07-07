@@ -2,15 +2,12 @@ import { NextRequest, NextResponse } from 'next/server';
 import connectDB from '../../../../lib/mongodb';
 import CompletedQuestion from '../../../../models/CompletedQuestion';
 
-// GET - Get all completed questions for a session
-export async function GET(request: NextRequest) {
+// GET - Get all globally completed questions
+export async function GET() {
   try {
     await connectDB();
     
-    const { searchParams } = new URL(request.url);
-    const sessionId = searchParams.get('sessionId') || 'default';
-    
-    const completedQuestions = await CompletedQuestion.find({ sessionId });
+    const completedQuestions = await CompletedQuestion.find({});
     
     return NextResponse.json({
       success: true,
@@ -25,12 +22,12 @@ export async function GET(request: NextRequest) {
   }
 }
 
-// POST - Toggle completion status for a question
+// POST - Toggle completion status for a question globally
 export async function POST(request: NextRequest) {
   try {
     await connectDB();
     
-    const { questionId, sessionId = 'default' } = await request.json();
+    const { questionId } = await request.json();
     
     if (!questionId) {
       return NextResponse.json(
@@ -40,11 +37,11 @@ export async function POST(request: NextRequest) {
     }
     
     // Find existing completion record
-    const existingCompletion = await CompletedQuestion.findOne({ questionId, sessionId });
+    const existingCompletion = await CompletedQuestion.findOne({ questionId });
     
     if (existingCompletion) {
       // Remove completion (mark as not completed)
-      await CompletedQuestion.deleteOne({ questionId, sessionId });
+      await CompletedQuestion.deleteOne({ questionId });
       
       return NextResponse.json({
         success: true,
@@ -55,7 +52,6 @@ export async function POST(request: NextRequest) {
       // Add completion record
       const newCompletion = new CompletedQuestion({
         questionId,
-        sessionId,
         completedAt: new Date()
       });
       
@@ -69,7 +65,6 @@ export async function POST(request: NextRequest) {
     }
   } catch (error) {
     console.error('Error toggling completion:', error);
-    
     // Handle duplicate key error (race condition)
     if (typeof error === 'object' && error !== null && 'code' in error && (error as { code: number }).code === 11000) {
       return NextResponse.json({
@@ -78,7 +73,6 @@ export async function POST(request: NextRequest) {
         message: 'Question already completed'
       });
     }
-    
     return NextResponse.json(
       { success: false, error: 'Failed to toggle completion status' },
       { status: 500 }
@@ -86,14 +80,13 @@ export async function POST(request: NextRequest) {
   }
 }
 
-// DELETE - Remove completion for a question (alternative to POST toggle)
+// DELETE - Remove completion for a question globally
 export async function DELETE(request: NextRequest) {
   try {
     await connectDB();
     
     const { searchParams } = new URL(request.url);
     const questionId = searchParams.get('questionId');
-    const sessionId = searchParams.get('sessionId') || 'default';
     
     if (!questionId) {
       return NextResponse.json(
@@ -102,7 +95,7 @@ export async function DELETE(request: NextRequest) {
       );
     }
     
-    await CompletedQuestion.deleteOne({ questionId, sessionId });
+    await CompletedQuestion.deleteOne({ questionId });
     
     return NextResponse.json({
       success: true,
